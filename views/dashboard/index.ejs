@@ -1,0 +1,1665 @@
+<div class="container-fluid">
+
+  <!-- ====================================================== -->
+
+  <!-- HEADER DASHBOARD -->
+
+  <!-- ====================================================== -->
+
+  <div class="row mt-4">
+<div class="col-12">
+
+  <div class="d-flex justify-content-between align-items-center">
+
+    <div>
+      <h3 class="mb-1">
+        Dashboard
+      </h3>
+
+      <p class="text-muted mb-0">
+        Sistem Informasi Presensi Pegawai
+      </p>
+    </div>
+
+
+    <!-- TANGGAL & JAM REALTIME -->
+
+    <div class="text-end">
+
+      <div
+        class="fw-bold"
+        id="tanggalHariIni"
+      >
+        -
+      </div>
+
+      <div
+        class="text-primary fw-bold"
+        id="jamSekarang"
+      >
+        -
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </div>
+
+  <!-- ====================================================== -->
+
+  <!-- STATISTIK -->
+
+  <!-- ====================================================== -->
+
+  <div class="row mt-4">
+<!-- TOTAL PEGAWAI -->
+
+<div class="col-md-3 mb-3">
+
+  <div class="card shadow-sm border-0 h-100">
+
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <h6 class="text-muted mb-2">
+            Total Pegawai
+          </h6>
+
+          <h2 class="mb-0">
+            <%= totalPegawai %>
+          </h2>
+
+        </div>
+
+        <div class="text-primary fs-1">
+
+          <i class="fas fa-users"></i>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- PRESENSI HARI INI -->
+
+<div class="col-md-3 mb-3">
+
+  <div class="card shadow-sm border-0 h-100">
+
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <h6 class="text-muted mb-2">
+            Presensi Hari Ini
+          </h6>
+
+          <h2 class="mb-0">
+            <%= totalPresensi %>
+          </h2>
+
+        </div>
+
+        <div class="text-success fs-1">
+
+          <i class="fas fa-user-check"></i>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- TERLAMBAT -->
+
+<div class="col-md-3 mb-3">
+
+  <div class="card shadow-sm border-0 h-100">
+
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <h6 class="text-muted mb-2">
+            Terlambat
+          </h6>
+
+          <h2 class="mb-0">
+            <%= totalTerlambat %>
+          </h2>
+
+        </div>
+
+        <div class="text-warning fs-1">
+
+          <i class="fas fa-clock"></i>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div class="col-md-3 mb-3">
+
+  <div class="card shadow-sm border-0 h-100">
+
+    <div class="card-body">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+          <h6 class="text-muted mb-2">
+            Admin
+          </h6>
+
+          <h2 class="mb-0">
+            <%= totalAdmin %>
+          </h2>
+
+        </div>
+
+        <div class="text-info fs-1">
+
+          <i class="fas fa-user-shield"></i>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </div>
+
+  <!-- ====================================================== -->
+
+  <!-- FILTER PRESENSI -->
+
+  <!-- ====================================================== -->
+
+  <div class="card shadow-sm border-0 mt-3">
+
+<!-- HEADER FILTER -->
+
+<div class="card-header bg-white">
+
+  <h5 class="mb-0">
+
+    <i class="fas fa-filter text-primary me-1"></i>
+
+    Filter Presensi
+
+  </h5>
+
+</div>
+
+
+<!-- BODY FILTER -->
+
+<div class="card-body">
+
+  <form
+    action="/dashboard"
+    method="GET"
+  >
+
+    <div class="row g-3 align-items-end">
+
+
+      <!-- ID PEGAWAI -->
+
+      <div class="col-md-4">
+
+        <label class="form-label">
+          ID Pegawai
+        </label>
+
+        <select
+          name="id_pegawai"
+          class="form-select"
+        >
+
+          <option value="">
+            -- Semua Pegawai --
+          </option>
+
+
+          <% if (pegawai && pegawai.length > 0) { %>
+
+            <% pegawai.forEach(item => { %>
+
+              <option
+                value="<%= item.id_pegawai %>"
+                <%= String(selectedId || "") === String(item.id_pegawai) ? "selected" : "" %>
+              >
+
+                <%= item.id_pegawai %> -
+                <%= item.nama %>
+
+              </option>
+
+            <% }) %>
+
+          <% } %>
+
+        </select>
+
+      </div>
+
+
+      <!-- TANGGAL MULAI -->
+
+      <div class="col-md-3">
+
+        <label class="form-label">
+          Tanggal Mulai
+        </label>
+
+        <input
+          type="date"
+          name="tanggal_mulai"
+          class="form-control"
+          value="<%= tanggalMulai || '' %>"
+        >
+
+      </div>
+
+
+      <!-- TANGGAL SAMPAI -->
+
+      <div class="col-md-3">
+
+        <label class="form-label">
+          Tanggal Sampai
+        </label>
+
+        <input
+          type="date"
+          name="tanggal_sampai"
+          class="form-control"
+          value="<%= tanggalSampai || '' %>"
+        >
+
+      </div>
+
+
+      <!-- BUTTON -->
+
+      <div class="col-md-2">
+
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+        >
+
+          <i class="fas fa-search me-1"></i>
+
+          Tampilkan
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </form>
+
+</div>
+
+  </div>
+
+  <!-- ====================================================== -->
+
+  <!-- HASIL DATA PRESENSI -->
+
+  <!-- ====================================================== -->
+
+  <div class="card shadow-sm border-0 mt-4">
+<!-- HEADER DATA -->
+
+<div class="card-header bg-white">
+
+  <div class="d-flex justify-content-between align-items-center">
+
+
+    <div>
+
+      <h5 class="mb-1">
+
+        <i class="fas fa-calendar-check text-primary me-1"></i>
+
+        Data Presensi
+
+      </h5>
+
+
+      <!-- INFORMASI FILTER -->
+
+      <% if (selectedId || tanggalMulai || tanggalSampai) { %>
+
+        <small class="text-muted">
+
+          Menampilkan hasil berdasarkan filter
+
+
+          <% if (selectedId) { %>
+
+            | ID Pegawai:
+
+            <strong>
+              <%= selectedId %>
+            </strong>
+
+          <% } %>
+
+
+          <% if (tanggalMulai) { %>
+
+            | Tanggal Mulai:
+
+            <strong>
+              <%= tanggalMulai %>
+            </strong>
+
+          <% } %>
+
+
+          <% if (tanggalSampai) { %>
+
+            | Tanggal Sampai:
+
+            <strong>
+              <%= tanggalSampai %>
+            </strong>
+
+          <% } %>
+
+        </small>
+
+      <% } else { %>
+
+        <small class="text-muted">
+          Menampilkan data presensi hari ini
+        </small>
+
+      <% } %>
+
+    </div>
+
+
+    <!-- JUMLAH DATA -->
+
+    <span class="badge bg-primary">
+
+      <i class="fas fa-list me-1"></i>
+
+      <%= presensiHariIni ? presensiHariIni.length : 0 %>
+
+      Data
+
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================== -->
+<!-- BODY TABEL -->
+<!-- ==================================================== -->
+
+<div class="card-body">
+
+  <div class="table-responsive">
+
+    <table
+      class="table table-hover table-bordered align-middle mb-0"
+    >
+
+      <!-- HEADER TABEL -->
+
+      <thead class="table-primary text-center">
+
+        <tr>
+
+          <th width="60">
+            No
+          </th>
+
+          <th>
+            ID Pegawai
+          </th>
+
+          <th>
+            Nama Pegawai
+          </th>
+
+          <th>
+            Departemen
+          </th>
+
+          <th>
+            Shift
+          </th>
+
+          <th>
+            Tanggal
+          </th>
+
+          <th>
+            Jam Datang
+          </th>
+
+          <th>
+            Jam Pulang
+          </th>
+
+          <th>
+            Status
+          </th>
+
+          <th width="80">
+            Aksi
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <!-- BODY TABEL -->
+
+      <tbody>
+
+
+        <% if (presensiHariIni && presensiHariIni.length > 0) { %>
+
+
+          <% presensiHariIni.forEach((item, index) => { %>
+
+            <tr>
+
+
+              <!-- NOMOR -->
+
+              <td class="text-center">
+
+                <%= index + 1 %>
+
+              </td>
+
+
+              <!-- ID PEGAWAI -->
+
+              <td class="text-center fw-semibold">
+
+                <%= item.id_pegawai %>
+
+              </td>
+
+
+              <!-- NAMA -->
+
+              <td>
+
+                <%= item.nama %>
+
+              </td>
+
+
+              <!-- DEPARTEMEN -->
+
+              <td>
+
+                <%= item.departemen || "-" %>
+
+              </td>
+
+
+              <!-- SHIFT -->
+
+              <td class="text-center">
+
+                <%= item.shift || "-" %>
+
+              </td>
+
+
+              <!-- ================================================= -->
+              <!-- TANGGAL -->
+              <!-- ================================================= -->
+
+              <td class="text-center">
+
+                <% if (item.jam_datang) { %>
+
+                  <%= new Date(item.jam_datang).toLocaleDateString(
+                    "id-ID",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric"
+                    }
+                  ) %>
+
+                <% } else { %>
+
+                  -
+
+                <% } %>
+
+              </td>
+
+
+              <!-- ================================================= -->
+              <!-- JAM DATANG -->
+              <!-- ================================================= -->
+
+              <td class="text-center">
+
+                <% if (item.jam_datang) { %>
+
+                  <span class="badge bg-success">
+
+                    <i class="fas fa-sign-in-alt me-1"></i>
+
+                    <%= new Date(item.jam_datang).toLocaleTimeString(
+                      "id-ID",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      }
+                    ) %>
+
+                  </span>
+
+                <% } else { %>
+
+                  <span class="text-muted">
+                    -
+                  </span>
+
+                <% } %>
+
+              </td>
+
+
+              <!-- ================================================= -->
+              <!-- JAM PULANG -->
+              <!-- ================================================= -->
+
+              <td class="text-center">
+
+                <% if (item.jam_pulang) { %>
+
+                  <span class="badge bg-info text-dark">
+
+                    <i class="fas fa-sign-out-alt me-1"></i>
+
+                    <%= new Date(item.jam_pulang).toLocaleTimeString(
+                      "id-ID",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      }
+                    ) %>
+
+                  </span>
+
+                <% } else { %>
+
+                  <span class="text-muted">
+                    Belum Pulang
+                  </span>
+
+                <% } %>
+
+              </td>
+
+
+              <!-- ================================================= -->
+              <!-- STATUS -->
+              <!-- ================================================= -->
+
+              <td class="text-center">
+
+                <%
+                  const status =
+                    (item.status || "")
+                    .toLowerCase()
+                    .trim();
+                %>
+
+
+                <% if (
+                  status === "hadir" ||
+                  status.includes("tepat waktu")
+                ) { %>
+
+                  <span
+                    class="badge rounded-pill bg-success px-3 py-2"
+                  >
+
+                    <i class="fas fa-check-circle me-1"></i>
+
+                    <%= item.status %>
+
+                  </span>
+
+
+                <% } else if (
+                  status.includes("terlambat")
+                ) { %>
+
+                  <span
+                    class="badge rounded-pill bg-warning text-dark px-3 py-2"
+                  >
+
+                    <i class="fas fa-clock me-1"></i>
+
+                    <%= item.status %>
+
+                  </span>
+
+
+                <% } else { %>
+
+                  <span
+                    class="badge rounded-pill bg-danger px-3 py-2"
+                  >
+
+                    <i class="fas fa-times-circle me-1"></i>
+
+                    <%= item.status || "Tidak Hadir" %>
+
+                  </span>
+
+                <% } %>
+
+              </td>
+
+
+              <!-- ================================================= -->
+              <!-- AKSI EDIT -->
+              <!-- ================================================= -->
+
+              <td class="text-center">
+
+                <% if (item.jam_datang) { %>
+
+                  <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary btn-edit-jam"
+                
+                  data-id="<%= item.id_pegawai %>"
+                
+                  data-jam="<%= item.jam_datang %>"
+                
+                  data-status="<%= item.status || '' %>"
+                
+                  title="Edit Presensi"
+                >
+                
+                  <i class="fas fa-edit"></i>
+                
+                </button>
+
+                <% } else { %>
+
+                  <span class="text-muted">
+                    -
+                  </span>
+
+                <% } %>
+
+              </td>
+
+            </tr>
+
+          <% }) %>
+
+
+        <% } else { %>
+
+
+          <!-- ================================================= -->
+          <!-- DATA KOSONG -->
+          <!-- ================================================= -->
+
+          <tr>
+
+            <td
+              colspan="10"
+              class="text-center py-5"
+            >
+
+              <div class="text-muted">
+
+                <i
+                  class="fas fa-calendar-times fa-3x mb-3"
+                ></i>
+
+                <h6>
+                  Tidak Ada Data Presensi
+                </h6>
+
+                <p class="mb-0">
+
+                  Belum terdapat data presensi
+                  untuk filter yang dipilih.
+
+                </p>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+
+        <% } %>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+```
+
+  </div>
+
+</div>
+
+<!-- ====================================================== -->
+
+<!-- MODAL EDIT JAM DATANG -->
+
+<!-- ====================================================== -->
+
+<div
+  class="modal fade"
+  id="modalEditJam"
+  tabindex="-1"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content border-0 shadow">
+
+
+      <!-- ================================================== -->
+      <!-- HEADER -->
+      <!-- ================================================== -->
+
+      <div class="modal-header">
+
+        <div>
+
+          <h5 class="modal-title fw-bold">
+
+            <i class="fas fa-edit me-2 text-primary"></i>
+
+            Edit Presensi
+
+          </h5>
+
+          <small class="text-muted">
+
+            Ubah jam datang dan status presensi
+
+          </small>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+
+      <!-- ================================================== -->
+      <!-- BODY -->
+      <!-- ================================================== -->
+
+      <div class="modal-body">
+
+
+        <!-- ID -->
+
+        <input
+          type="hidden"
+          id="edit_id_presensi"
+        >
+
+
+        <!-- JAM LAMA -->
+
+        <input
+          type="hidden"
+          id="edit_jam_lama"
+        >
+
+
+        <!-- ================================================== -->
+        <!-- TANGGAL -->
+        <!-- ================================================== -->
+
+        <div class="mb-3">
+
+          <label class="form-label fw-semibold">
+
+            <i class="fas fa-calendar me-1"></i>
+
+            Tanggal Presensi
+
+          </label>
+
+
+          <input
+            type="date"
+            class="form-control form-control-lg bg-light"
+            id="edit_tanggal"
+            readonly
+          >
+
+
+          <div class="form-text">
+
+            Tanggal mengikuti data presensi.
+
+          </div>
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- JAM DATANG -->
+        <!-- ================================================== -->
+
+        <div class="mb-3">
+
+          <label class="form-label fw-semibold">
+
+            <i class="fas fa-clock me-1"></i>
+
+            Jam Datang
+
+          </label>
+
+
+          <input
+            type="time"
+            class="form-control form-control-lg"
+            id="edit_jam"
+            step="60"
+            required
+          >
+
+
+          <div class="form-text">
+
+            Format jam: <strong>HH:mm</strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- ================================================== -->
+        <!-- STATUS -->
+        <!-- ================================================== -->
+
+        <div class="mb-3">
+
+          <label class="form-label fw-semibold">
+
+            <i class="fas fa-info-circle me-1"></i>
+
+            Status Presensi
+
+          </label>
+
+
+          <select
+            class="form-select form-select-lg"
+            id="edit_status"
+            required
+          >
+
+            <option value="">
+              -- Pilih Status --
+            </option>
+
+
+            <option value="Tepat Waktu">
+              Tepat Waktu
+            </option>
+
+
+            <option value="Terlambat Toleransi">
+              Terlambat Toleransi
+            </option>
+
+
+            <option value="Terlambat">
+              Terlambat
+            </option>
+
+          </select>
+
+
+          <div class="form-text">
+
+            Pilih status presensi pegawai.
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================== -->
+      <!-- FOOTER -->
+      <!-- ================================================== -->
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-light"
+          data-bs-dismiss="modal"
+        >
+
+          <i class="fas fa-times me-1"></i>
+
+          Batal
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="btnSimpanJam"
+        >
+
+          <i class="fas fa-save me-1"></i>
+
+          Simpan Perubahan
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ====================================================== -->
+
+<!-- JAVASCRIPT EDIT JAM -->
+
+<!-- ====================================================== -->
+
+<script>
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+  
+  
+      // ==================================================
+      // ELEMENT
+      // ==================================================
+  
+      const modalElement =
+        document.getElementById(
+          "modalEditJam"
+        );
+  
+  
+      const modal =
+        new bootstrap.Modal(
+          modalElement
+        );
+  
+  
+      const inputId =
+        document.getElementById(
+          "edit_id_presensi"
+        );
+  
+  
+      const inputJamLama =
+        document.getElementById(
+          "edit_jam_lama"
+        );
+  
+  
+      const inputTanggal =
+        document.getElementById(
+          "edit_tanggal"
+        );
+  
+  
+      const inputJam =
+        document.getElementById(
+          "edit_jam"
+        );
+  
+  
+      const inputStatus =
+        document.getElementById(
+          "edit_status"
+        );
+  
+  
+      const btnSimpan =
+        document.getElementById(
+          "btnSimpanJam"
+        );
+  
+  
+      // ==================================================
+      // TOMBOL EDIT
+      // ==================================================
+  
+      document
+        .querySelectorAll(".btn-edit-jam")
+        .forEach(function (button) {
+  
+  
+          button.addEventListener(
+            "click",
+            function () {
+  
+  
+              // ==========================================
+              // AMBIL DATA
+              // ==========================================
+  
+              const id =
+                this.getAttribute(
+                  "data-id"
+                );
+  
+  
+              const jamLama =
+                this.getAttribute(
+                  "data-jam"
+                );
+  
+  
+              const status =
+                this.getAttribute(
+                  "data-status"
+                );
+  
+  
+              console.log(
+                "================================"
+              );
+  
+              console.log(
+                "EDIT PRESENSI"
+              );
+  
+              console.log(
+                "ID:",
+                id
+              );
+  
+              console.log(
+                "Jam Lama:",
+                jamLama
+              );
+  
+              console.log(
+                "Status:",
+                status
+              );
+  
+  
+              // ==========================================
+              // VALIDASI
+              // ==========================================
+  
+              if (!id) {
+  
+                alert(
+                  "ID pegawai tidak ditemukan."
+                );
+  
+                return;
+  
+              }
+  
+  
+              if (!jamLama) {
+  
+                alert(
+                  "Jam datang tidak ditemukan."
+                );
+  
+                return;
+  
+              }
+  
+  
+              // ==========================================
+              // AMBIL TANGGAL
+              // ==========================================
+  
+              const tanggal =
+                jamLama.substring(
+                  0,
+                  10
+                );
+  
+  
+              // ==========================================
+              // AMBIL JAM
+              // ==========================================
+  
+              const jam =
+                jamLama.substring(
+                  11,
+                  16
+                );
+  
+  
+              // ==========================================
+              // ISI FORM
+              // ==========================================
+  
+              inputId.value =
+                id;
+  
+  
+              inputJamLama.value =
+                jamLama;
+  
+  
+              inputTanggal.value =
+                tanggal;
+  
+  
+              inputJam.value =
+                jam;
+  
+  
+              inputStatus.value =
+                status;
+  
+  
+              console.log(
+                "Tanggal:",
+                tanggal
+              );
+  
+              console.log(
+                "Jam:",
+                jam
+              );
+  
+              console.log(
+                "Status:",
+                status
+              );
+  
+  
+              // ==========================================
+              // TAMPILKAN MODAL
+              // ==========================================
+  
+              modal.show();
+  
+            }
+  
+          );
+  
+        });
+  
+  
+      // ==================================================
+      // SIMPAN PERUBAHAN
+      // ==================================================
+  
+      btnSimpan.addEventListener(
+        "click",
+        async function () {
+  
+  
+          const id =
+            inputId.value.trim();
+  
+  
+          const jamLama =
+            inputJamLama.value.trim();
+  
+  
+          const tanggal =
+            inputTanggal.value.trim();
+  
+  
+          const jam =
+            inputJam.value.trim();
+  
+  
+          const status =
+            inputStatus.value.trim();
+  
+  
+          console.log(
+            "================================"
+          );
+  
+          console.log(
+            "SIMPAN PERUBAHAN"
+          );
+  
+          console.log(
+            "ID:",
+            id
+          );
+  
+          console.log(
+            "Jam Lama:",
+            jamLama
+          );
+  
+          console.log(
+            "Tanggal:",
+            tanggal
+          );
+  
+          console.log(
+            "Jam Baru:",
+            jam
+          );
+  
+          console.log(
+            "Status:",
+            status
+          );
+  
+  
+          // ==================================================
+          // VALIDASI
+          // ==================================================
+  
+          if (!id) {
+  
+            alert(
+              "ID pegawai belum tersedia."
+            );
+  
+            return;
+  
+          }
+  
+  
+          if (!jamLama) {
+  
+            alert(
+              "Data jam lama belum tersedia."
+            );
+  
+            return;
+  
+          }
+  
+  
+          if (!tanggal) {
+  
+            alert(
+              "Tanggal presensi belum tersedia."
+            );
+  
+            return;
+  
+          }
+  
+  
+          if (!jam) {
+  
+            alert(
+              "Silakan pilih jam datang."
+            );
+  
+            inputJam.focus();
+  
+            return;
+  
+          }
+  
+  
+          if (!status) {
+  
+            alert(
+              "Silakan pilih status presensi."
+            );
+  
+            inputStatus.focus();
+  
+            return;
+  
+          }
+  
+  
+          // ==================================================
+          // BUAT DATETIME BARU
+          // ==================================================
+  
+          const jamBaru =
+            `${tanggal} ${jam}:00`;
+  
+  
+          console.log(
+            "Datetime Baru:",
+            jamBaru
+          );
+  
+  
+          // ==================================================
+          // DISABLE BUTTON
+          // ==================================================
+  
+          btnSimpan.disabled =
+            true;
+  
+  
+          btnSimpan.innerHTML =
+            '<i class="fas fa-spinner fa-spin me-1"></i> Menyimpan...';
+  
+  
+          try {
+  
+  
+            // ==================================================
+            // REQUEST SERVER
+            // ==================================================
+  
+            const response =
+              await fetch(
+                "/dashboard/presensi/update",
+                {
+  
+                  method: "POST",
+  
+                  headers: {
+  
+                    "Content-Type":
+                      "application/json",
+  
+                    "Accept":
+                      "application/json"
+  
+                  },
+  
+                  body:
+                    JSON.stringify({
+  
+                      id:
+                        id,
+  
+                      jam_lama:
+                        jamLama,
+  
+                      jam_datang:
+                        jamBaru,
+  
+                      status:
+                        status
+  
+                    })
+  
+                }
+              );
+  
+  
+            // ==================================================
+            // RESPONSE
+            // ==================================================
+  
+            const result =
+              await response.json();
+  
+  
+            console.log(
+              "HTTP Status:",
+              response.status
+            );
+  
+  
+            console.log(
+              "Response:",
+              result
+            );
+  
+  
+            // ==================================================
+            // BERHASIL
+            // ==================================================
+  
+            if (
+              response.ok &&
+              result.success
+            ) {
+  
+  
+              alert(
+                "✅ " +
+                result.message
+              );
+  
+  
+              modal.hide();
+  
+  
+              // Refresh dashboard
+  
+              window.location.reload();
+  
+            }
+  
+  
+            // ==================================================
+            // GAGAL
+            // ==================================================
+  
+            else {
+  
+  
+              alert(
+                "⚠️ " +
+                (
+                  result.message ||
+                  "Gagal memperbarui data."
+                )
+              );
+  
+            }
+  
+  
+          } catch (error) {
+  
+  
+            console.error(
+              "Update Error:",
+              error
+            );
+  
+  
+            alert(
+              "❌ Terjadi kesalahan koneksi ke server."
+            );
+  
+  
+          } finally {
+  
+  
+            btnSimpan.disabled =
+              false;
+  
+  
+            btnSimpan.innerHTML =
+              '<i class="fas fa-save me-1"></i> Simpan Perubahan';
+  
+          }
+  
+        }
+  
+      );
+  
+    }
+  
+  );
+  
+  </script>
+
+<!-- ====================================================== -->
+
+<!-- JAVASCRIPT JAM REALTIME -->
+
+<!-- ====================================================== -->
+
+<script>
+
+function updateWaktu() {
+
+
+  const sekarang =
+    new Date();
+
+
+  // ==================================================
+  // TANGGAL
+  // ==================================================
+
+  const tanggal =
+    sekarang.toLocaleDateString(
+      "id-ID",
+      {
+
+        weekday: "long",
+
+        year: "numeric",
+
+        month: "long",
+
+        day: "numeric"
+
+      }
+    );
+
+
+  // ==================================================
+  // JAM
+  // ==================================================
+
+  const jam =
+    sekarang.toLocaleTimeString(
+      "id-ID",
+      {
+
+        hour: "2-digit",
+
+        minute: "2-digit",
+
+        second: "2-digit"
+
+      }
+    );
+
+
+  // ==================================================
+  // TAMPILKAN
+  // ==================================================
+
+  const tanggalElement =
+    document.getElementById(
+      "tanggalHariIni"
+    );
+
+
+  const jamElement =
+    document.getElementById(
+      "jamSekarang"
+    );
+
+
+  if (tanggalElement) {
+
+    tanggalElement.textContent =
+      tanggal;
+
+  }
+
+
+  if (jamElement) {
+
+    jamElement.textContent =
+      jam;
+
+  }
+
+}
+
+
+// Jalankan pertama kali
+
+updateWaktu();
+
+
+// Update setiap 1 detik
+
+setInterval(
+  updateWaktu,
+  1000
+);
+
+</script>
